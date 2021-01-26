@@ -122,10 +122,16 @@ class NSOConnection:
         if response.status_code != HTTPStatus.OK:
             logger.warning("Unexpected status code for HEAD: %s", response.status_code)
 
-    def post(self, *args: Any, **kwargs: Any) -> Optional[JSON]:
+    def post(self, return_created=False, *args: Any, **kwargs: Any) -> Optional[JSON]:
         response = self._request(self.session.post, *args, **kwargs)
 
-        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.CREATED):
+        if response.status_code in (HTTPStatus.CREATED):
+            if return_created is True:
+                return _handle_json(response)
+            else:
+                return None
+
+        if response.status_code in (HTTPStatus.NO_CONTENT):
             return None
 
         if response.status_code != HTTPStatus.OK:
@@ -133,11 +139,14 @@ class NSOConnection:
 
         return _handle_json(response)
 
-    def put(self, *args: Any, **kwargs: Any) -> Optional[JSON]:
+    def put(self, return_created=False, *args: Any, **kwargs: Any) -> Optional[JSON]:
         response = self._request(self.session.put, *args, **kwargs)
 
-        if response.status_code in (HTTPStatus.NO_CONTENT, HTTPStatus.CREATED):
-            return None
+        if response.status_code in (HTTPStatus.CREATED):
+            if return_created is True:
+                return _handle_json(response)
+            else:
+                return None
 
         if response.status_code != HTTPStatus.OK:
             logger.warning("Unexpected status code for PUT: %s", response.status_code)
