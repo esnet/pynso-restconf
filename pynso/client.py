@@ -190,7 +190,6 @@ class NSOClient(object):
         self,
         data_path: Iterable[str],
         data: JSON,
-        return_created: bool = False,
         *,
         datastore: Optional[DatastoreType] = None,
         params: Optional[Params] = None,
@@ -208,7 +207,7 @@ class NSOClient(object):
         path = "/".join(data_path)
         params = _parse_datastore(datastore, params)
 
-        self.connection.patch(return_created, data_store="data", path=path, data=data, params=params)
+        self.connection.patch(data_store="data", path=path, data=data, params=params)
 
     def delete_path(
         self,
