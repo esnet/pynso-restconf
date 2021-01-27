@@ -159,7 +159,7 @@ class NSOConnection:
         if response.status_code != HTTPStatus.NO_CONTENT:
             logger.warning("Unexpected status code for PATCH: %s", response.status_code)
 
-        return _handle_json(response)
+        return response
 
     def delete(self, *args: Any, **kwargs: Any) -> None:
         response = self._request(self.session.delete, *args, **kwargs)
@@ -167,7 +167,7 @@ class NSOConnection:
         if response.status_code != HTTPStatus.NO_CONTENT:
             logger.warning("Unexpected status code for DELETE: %s", response.status_code)
         
-        return _handle_json(response)
+        return response
 
     def options(self, *args: Any, **kwargs: Any) -> List[str]:
         response = self._request(self.session.options, *args, **kwargs)
