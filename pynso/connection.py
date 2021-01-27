@@ -125,13 +125,13 @@ class NSOConnection:
     def post(self, return_created=False, *args: Any, **kwargs: Any) -> Optional[JSON]:
         response = self._request(self.session.post, *args, **kwargs)
 
-        if response.status_code in (HTTPStatus.CREATED):
+        if response.status_code in [HTTPStatus.CREATED]:
             if return_created is True:
                 return _handle_json(response)
             else:
                 return None
 
-        if response.status_code in (HTTPStatus.NO_CONTENT):
+        if response.status_code in [HTTPStatus.NO_CONTENT]:
             return None
 
         if response.status_code != HTTPStatus.OK:
