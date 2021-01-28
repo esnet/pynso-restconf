@@ -160,7 +160,7 @@ class NSOClient(object):
         path = "/".join(data_path)
         params = _parse_datastore(datastore, params)
 
-        self.connection.put(data_store="data", path=path, data=data, params=params)
+        return self.connection.put(data_store="data", path=path, data=data, params=params)
 
     def create_data_value(
         self,
@@ -184,7 +184,7 @@ class NSOClient(object):
         path = "/".join(data_path)
         params = _parse_datastore(datastore, params)
 
-        self.connection.post(return_created, data_store="data", path=path, data=data, params=params)
+        return self.connection.post(return_created, data_store="data", path=path, data=data, params=params)
 
     def update_data_value(
         self,
@@ -207,7 +207,7 @@ class NSOClient(object):
         path = "/".join(data_path)
         params = _parse_datastore(datastore, params)
 
-        self.connection.patch(data_store="data", path=path, data=data, params=params)
+        return self.connection.patch(data_store="data", path=path, data=data, params=params)
 
     def delete_path(
         self,
@@ -228,7 +228,7 @@ class NSOClient(object):
         path = "/".join(data_path)
         params = _parse_datastore(datastore, params)
 
-        self.connection.delete(data_store="data", path=path, params=params)
+        return self.connection.delete(data_store="data", path=path, params=params)
 
     def call_operation(
         self, data_path: Iterable[str], data: JSON, *, params: Optional[Params] = None
