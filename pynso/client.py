@@ -143,6 +143,7 @@ class NSOClient(object):
         self,
         data_path: Iterable[str],
         data: JSON,
+        return_created: bool = False,
         *,
         datastore: Optional[DatastoreType] = None,
         params: Optional[Params] = None,
@@ -160,7 +161,7 @@ class NSOClient(object):
         path = "/".join(data_path)
         params = _parse_datastore(datastore, params)
 
-        return self.connection.put(data_store="data", path=path, data=data, params=params)
+        return self.connection.put(return_created, data_store="data", path=path, data=data, params=params)
 
     def create_data_value(
         self,
