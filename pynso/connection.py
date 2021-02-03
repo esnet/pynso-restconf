@@ -153,7 +153,7 @@ class NSOConnection:
 
         return _handle_json(response)
 
-    def patch(self, return_created = False, *args: Any, **kwargs: Any) -> None:
+    def patch(self, return_created = False, *args: Any, **kwargs: Any) -> Optional[JSON]:
         response = self._request(self.session.patch, *args, **kwargs)
 
         if response.status_code in [HTTPStatus.CREATED]:
