@@ -62,6 +62,10 @@ def raise_for_status(response: requests.Response) -> None:
 
 
 def _handle_json(response: requests.Response) -> Any:
+
+    if response.status_code in [HTTPStatus.NO_CONTENT]:
+        return None
+
     try:
         return response.json()
     except json.decoder.JSONDecodeError:
