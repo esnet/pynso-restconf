@@ -67,7 +67,7 @@ def _handle_json(response: requests.Response) -> Any:
         return None
 
     try:
-        response = response.json()
+        return response.json()
     except json.decoder.JSONDecodeError:
         logger.warning("Empty/Non valid JSON response")
         raise
