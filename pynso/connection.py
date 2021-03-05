@@ -67,7 +67,7 @@ def _handle_json(response: requests.Response) -> Any:
         return None
 
     try:
-        return response.json()
+        response = response.json()
     except json.decoder.JSONDecodeError:
         logger.warning("Empty/Non valid JSON response")
         raise
@@ -96,11 +96,13 @@ class NSOConnection:
         data: Optional[JSON] = None,
         path: Optional[str] = None,
         params: Optional[Params] = None,
+        headers: Optional[dict] = None
     ) -> requests.Response:
-        headers = {
-            "Content-Type": "application/yang-data+json",
-            "Accept": "application/yang-data+json",
-        }
+        if headers is None:
+            headers = {
+                "Content-Type": "application/yang-data+json",
+                "Accept": "application/yang-data+json",
+            }
 
         url = _format_url(self.host, self.root, data_store, path, self.ssl)
         response = function(url, headers=headers, data=data, params=params)
