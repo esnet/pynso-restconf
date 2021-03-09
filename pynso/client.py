@@ -373,3 +373,30 @@ class NSOClient(object):
         """
         data = self.connection.post(path="tailf/query", data=data)
         return data["tailf-rest-query:query-result"]
+
+    def submit_yang_patch(self,
+        data_path: Iterable[str],
+        data: JSON,
+        *,
+        datastore: Optional[DatastoreType] = None,
+        params: Optional[Params] = None,
+        return_created: bool = False,
+    ) -> JSON:
+        """
+        Variable modification of the NSO CDB by use of the YANG PATCH mechanism - RFC 8072
+
+        :param data_path: The list of paths segments
+        :param data: The JSON payload for the YANG PATCH
+        :param datastore: Optional target datastore, see :class:`pynso.datastores.DatastoreType`
+        :param params: Optional Extra query parameters, see :data:`pynso.types.Params`
+
+        Raises :class:`requests.HTTPError` on failures.
+        """
+        path = "/".join(data_path)
+        params = _parse_datastore(datastore, params)
+        headers={
+            "Content-Type": "application/yang-patch+json", 
+            "Accept": "application/yang-data+json"
+            }
+        
+        return self.connection.patch(return_created, data_store="data", path=path, data=data, params=params, headers=headers)
