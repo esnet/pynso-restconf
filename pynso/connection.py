@@ -66,7 +66,7 @@ def _handle_json(response: requests.Response) -> Any:
     if response.status_code in [HTTPStatus.NO_CONTENT]:
         return None
     
-    if response.ok and response.text is '':
+    if response.ok and response.text == '':
         return response
 
     try:
