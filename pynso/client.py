@@ -249,7 +249,11 @@ class NSOClient(object):
         data = self.connection.post(data_store="data", path=path, data=data, params=params)
 
         if data is not None:
-            return data["tailf-ncs:output"]
+            try:
+                if len(data.keys()) == 1 and 'output' in list(data.keys())[0]:
+                    return list(data.values())[0]
+            except KeyError:
+                return data
         return None
 
     def get_rollbacks(self) -> JSON:
